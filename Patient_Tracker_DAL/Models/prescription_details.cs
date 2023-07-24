@@ -49,10 +49,12 @@ namespace Patient_Tracker.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd", ApplyFormatInEditMode = true)]
         public DateTime next_consaltation_date { get; set; }
 
-        [StringLength(200)]
+        [Required(ErrorMessage = "Consultation ID is required.")]
+        [RegularExpression("^C\\d{3}$", ErrorMessage = "consaltation_id should the format CXXX(e.g. M123)")]
         public string consaltation_id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Patient ID is required.")]
+      
         public string patient_id { get; set; }
 
        

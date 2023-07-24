@@ -47,9 +47,9 @@ namespace Patient_Tracker.Controllers
                 doctor_details result =_iserviceclerkdoctorregister.SaveDoctorDetails(obj);
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "An internal error occurred.");
+                return BadRequest(ex.Message);
             }
 
         }
@@ -60,12 +60,12 @@ namespace Patient_Tracker.Controllers
         {
             try
             {
-                doctor_details result = _iserviceclerkdoctorregister.UpdateDoctorDetails(obj);
-                return Ok(result);
+                 _iserviceclerkdoctorregister.UpdateDoctorDetails(obj);
+                return Ok("Doctors Details Updated Successfully");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "An internal error occurred.");
+                return BadRequest(ex.Message);
             }
 
 

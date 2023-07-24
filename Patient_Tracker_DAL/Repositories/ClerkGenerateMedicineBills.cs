@@ -20,73 +20,88 @@ namespace Patient_Tracker_DAL.Repositories
         }
         public List<medicine_bill> GetMedicineBills()
         {
+            List<medicine_bill> list = new List<medicine_bill>();
+
             try
             {
-                List<medicine_bill> list = new List<medicine_bill>();
-                SqlConnection con = new SqlConnection(connectionString);
-                SqlCommand cmd = new SqlCommand("GetMedicineBills", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                for (int i = 0; i < dt.Rows.Count; i++)
+                using (SqlConnection con = new SqlConnection(connectionString))
                 {
-                    medicine_bill obj = new medicine_bill();
-                    obj.Cc_Number = int.Parse(dt.Rows[i]["Cc_Number"].ToString());
-                    obj.doctor_Id = (dt.Rows[i]["doctor_Id"].ToString());
-                    obj.medicine_id = (dt.Rows[i]["medicine_id"].ToString());
-                    obj.date_of_prescription = DateTime.Parse(dt.Rows[i]["date_of_prescription"].ToString());
-                    obj.consul_date = DateTime.Parse(dt.Rows[i]["consul_date"].ToString());
-                    obj.patient_id = (dt.Rows[i]["patient_id"].ToString());
-                    obj.doctor_name = (dt.Rows[i]["doctor_name"].ToString());
-                    obj.prescription_id = (dt.Rows[i]["prescription_id"].ToString());
-                    obj.Patient_No = (dt.Rows[i]["Patient_No"].ToString());
+                    SqlCommand cmd = new SqlCommand("GetMedicineBills", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
 
 
+                    con.Open();
 
-                    list.Add(obj);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            medicine_bill obj = new medicine_bill();
+                            obj.Cc_Number = int.Parse(reader["Cc_Number"].ToString());
+                            obj.doctor_Id = reader["doctor_Id"].ToString();
+                            obj.medicine_id = reader["medicine_id"].ToString();
+                            obj.date_of_prescription = DateTime.Parse(reader["date_of_prescription"].ToString());
+                            obj.consul_date = DateTime.Parse(reader["consul_date"].ToString());
+                            obj.patient_id = reader["patient_id"].ToString();
+                            obj.doctor_name = reader["doctor_name"].ToString();
+                            obj.prescription_id = reader["prescription_id"].ToString();
+                            obj.Patient_No = reader["Patient_No"].ToString();
 
-
+                            list.Add(obj);
+                        }
+                    }
                 }
+
                 return list;
             }
             catch (Exception)
             {
                 throw;
             }
-
         }
+
+
 
         public List<medicine_bill> GetMedicineByCcNumber(int ccNumber)
         {
+            List<medicine_bill> list = new List<medicine_bill>();
+
             try
             {
-
-
-                List<medicine_bill> list = new List<medicine_bill>();
-                SqlConnection con = new SqlConnection(connectionString);
-                SqlCommand cmd = new SqlCommand("GetMedicineByCcNumber", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ccNumber", ccNumber);
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-
-                for (int i = 0; i < dt.Rows.Count; i++)
+                using (SqlConnection con = new SqlConnection(connectionString))
                 {
-                    medicine_bill obj = new medicine_bill();
-                    obj.Cc_Number = int.Parse(dt.Rows[i]["Cc_Number"].ToString());
-                    obj.doctor_Id = (dt.Rows[i]["doctor_Id"].ToString());
-                    obj.medicine_id = (dt.Rows[i]["medicine_id"].ToString());
-                    obj.date_of_prescription = DateTime.Parse(dt.Rows[i]["date_of_prescription"].ToString());
-                    obj.consul_date = DateTime.Parse(dt.Rows[i]["consul_date"].ToString());
-                    obj.patient_id = (dt.Rows[i]["patient_id"].ToString());
-                    obj.doctor_name = (dt.Rows[i]["doctor_name"].ToString());
-                    obj.prescription_id = (dt.Rows[i]["prescription_id"].ToString());
-                    obj.Patient_No = (dt.Rows[i]["Patient_No"].ToString());
+                    SqlCommand cmd = new SqlCommand("GetMedicineByCcNumber", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ccNumber", ccNumber);
 
-                    list.Add(obj);
+                    con.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (!reader.HasRows)
+                        {
+                            // If no rows are found with the given ccNumber, return an empty list or handle it accordingly
+                            Console.WriteLine("The CcNumber does not exists");
+                            return list;
+
+                        }
+
+                        while (reader.Read())
+                        {
+                            medicine_bill obj = new medicine_bill();
+                            obj.Cc_Number = int.Parse(reader["Cc_Number"].ToString());
+                            obj.doctor_Id = reader["doctor_Id"].ToString();
+                            obj.medicine_id = reader["medicine_id"].ToString();
+                            obj.date_of_prescription = DateTime.Parse(reader["date_of_prescription"].ToString());
+                            obj.consul_date = DateTime.Parse(reader["consul_date"].ToString());
+                            obj.patient_id = reader["patient_id"].ToString();
+                            obj.doctor_name = reader["doctor_name"].ToString();
+                            obj.prescription_id = reader["prescription_id"].ToString();
+                            obj.Patient_No = reader["Patient_No"].ToString();
+
+                            list.Add(obj);
+                        }
+                    }
                 }
 
                 return list;
@@ -95,10 +110,11 @@ namespace Patient_Tracker_DAL.Repositories
             {
                 throw;
             }
-
         }
-       
+
     }
+       
+    
 
 
 

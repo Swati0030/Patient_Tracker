@@ -26,19 +26,18 @@ namespace Patient_Tracker.Controllers
         [HttpGet]
         [Authorize(Roles = "Clerk")]
 
-        public List<medicine_details> GetDetailsMedicine()
+        public IActionResult GetDetailsMedicine()
         {
             try
             {
 
 
-                return _iserviceclerkaddmedicinedetails.GetDetailsMedicine().ToList();
+                List<medicine_details>  result = _iserviceclerkaddmedicinedetails.GetDetailsMedicine().ToList();
+                return Ok(result);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine("An Error Occured while retriving the Medicine details" + ex.Message);
-
-                return null;
+                return StatusCode(StatusCodes.Status500InternalServerError, "An internal error occurred.");
             }
         }
         [HttpGet("{medicine_id}")]
@@ -52,9 +51,9 @@ namespace Patient_Tracker.Controllers
                 List<medicine_details> result = _iserviceclerkaddmedicinedetails.GetDetailsMedicinebyid(medicine_id).ToList();
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "An internal error occurred.");
+                 return BadRequest(ex.Message);
             }
         }
 
@@ -68,9 +67,10 @@ namespace Patient_Tracker.Controllers
                 medicine_details result = _iserviceclerkaddmedicinedetails.SaveMedicineDetails(obj);
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "An internal error occurred.");
+                return BadRequest(ex.Message);
+                    //StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
 
         }
@@ -84,9 +84,9 @@ namespace Patient_Tracker.Controllers
                 medicine_details result =  _iserviceclerkaddmedicinedetails.UpdateMedicineDetails(obj);
                 return Ok(result);
             }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "An internal error occurred.");
+            catch (Exception ex) 
+            { 
+                return BadRequest(ex.Message); 
             }
 
         }

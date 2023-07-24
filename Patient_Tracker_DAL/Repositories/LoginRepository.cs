@@ -26,49 +26,60 @@ namespace Patient_Tracker_DAL.Repositories
 
         public string GetUserRole(string user_id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open(); // Get the user role from the databasestring
-                using (SqlCommand command = new SqlCommand("GetUserRole", connection))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@user_id", user_id);
-                    string role = (string)command.ExecuteScalar();
-                    return role;
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand("GetUserRole", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@user_id", user_id);
+                        string role = (string)command.ExecuteScalar();
+                        return role;
+                    }
                 }
-
-
-
+            }
+            catch (Exception)
+            {
+                // Handle the exception here (e.g., logging, displaying an error message)
+                // You can throw the exception further if needed
+                throw;
             }
         }
 
         public bool VerifyUser(string user_id, string user_psw)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-
-
-
-                // Check if the user exists in the database
-
-                using (SqlCommand command = new SqlCommand("VerifyUser", connection))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@user_id", user_id);
-                    command.Parameters.AddWithValue("@user_psw", user_psw);
+                    connection.Open();
 
 
 
-                    int count = (int)command.ExecuteScalar();
+                    using (SqlCommand command = new SqlCommand("VerifyUser", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@user_id", user_id);
+                        command.Parameters.AddWithValue("@user_psw", user_psw);
 
 
 
-                    return count > 0;
+                        int count = (int)command.ExecuteScalar();
+
+
+
+                        return count > 0;
+                    }
                 }
             }
+            catch (Exception)
+            {
+             // You can throw the exception further if needed or return false to indicate failure
+                throw;
+            }
         }
-
 
 
         public string GenerateJwtToken(string userId, string role)
@@ -76,14 +87,10 @@ namespace Patient_Tracker_DAL.Repositories
             try
             {
 
-
-
-
                 var claims = new List<Claim>
 
 
-
-           { new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+           { new Claim(ClaimTypes.NameIdentifier, userId),
              new Claim(ClaimTypes.Role, role)
             };
                 var securitykey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
@@ -93,7 +100,6 @@ namespace Patient_Tracker_DAL.Repositories
                     signingCredentials: credentials
                 );
                 return new JwtSecurityTokenHandler().WriteToken(token);
-
 
 
             }

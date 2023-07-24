@@ -29,16 +29,16 @@ namespace patienttracker.Controllers
 
        [Authorize(Roles = "Patient")]
         [HttpPost]
-        public IActionResult  SaveFeedbackDetails(feedback_details obj)
+        public IActionResult SaveFeedbackDetails(feedback_details obj)
         {
             try
             {
                 feedback_details result = _iservicepatientaddfeedback.SaveFeedbackDetails(obj);
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "An internal error occurred.");
+                return BadRequest(ex.Message);  
             }
 
         }
@@ -48,7 +48,7 @@ namespace patienttracker.Controllers
         
                         
         
-        [HttpPut("{prescription_id}")]
+        [HttpPut]
         [Authorize(Roles = "Patient")]
         public IActionResult UpdateFeedbackDetails(feedback_details obj)
         {

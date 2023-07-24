@@ -5,7 +5,8 @@ namespace Patient_Tracker.Models
 {
     public class medicine_details
     {
-        [Required]
+        [Required(ErrorMessage = "Medicine ID is required.")]
+        [RegularExpression("^M\\d{3}$", ErrorMessage = "Medicine_id should the format MXXX(e.g. M123)")]
         public string? medicine_id { get; set; }
 
          [StringLength(20)]

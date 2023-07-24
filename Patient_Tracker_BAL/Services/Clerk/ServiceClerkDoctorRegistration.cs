@@ -26,11 +26,11 @@ namespace Patient_Tracker_BAL.Services.Clerk
         {
             return _iclerkDoctorRegistration.GetDetailsDoctor().ToList();
         }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine("An Error Occured while retriving the doctor details:" + ex.Message);
 
-                return null;
+                throw;
+               
             }
         }
 

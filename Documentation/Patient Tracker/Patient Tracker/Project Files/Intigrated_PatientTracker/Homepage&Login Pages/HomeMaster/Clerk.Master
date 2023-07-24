@@ -1,0 +1,97 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Clerk.master.cs" Inherits="Home.Clerk" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <style type="text/css">
+                
+      .ButtonClass
+        {
+       cursor  : pointer;
+        }
+        .ButtonClass1
+        {
+            cursor :default;
+        }
+        
+    </style>
+
+      <style type="text/css">
+      
+      .center-justified {
+  text-align: justify;
+  margin: 0 auto;
+  width: 30em;
+}
+      
+ul {list-style-type:none; margin:0; padding:0; overflow:hidden;}
+ul li {float:left;
+            height: 42px;
+            
+        }
+ul li a { display:block; text-decoration:none; text-align:center; padding:9px 20px 9px 20px; font-family:Arial; font-size:10pt; font-weight:bold; color:#ffffff; text-transform:uppercase; border-top:1px solid #9cbed2; border-right:1px solid #7094B2; border-left:1px solid #94b5c8; background: #525200 url(bg.gif) repeat-x; text-transform:uppercase; letter-spacing:.08em;
+            width: 172px;
+            height: 27px;
+        }
+ul li a:hover,
+
+{color:#a2becf; border-top:1px solid #72a0ba; border-right:1px solid #2a4a5f; border-left:1px solid #8cb3c9; background: #3b6a85 url(bg2.gif) repeat-x}
+ul li a.first {border-left:0}
+ul li a.last {border-right:0}
+
+        .style
+        {
+            width: 1291px;
+            }
+
+        .style2
+        {
+            width: 1298px;
+            height: 35px;
+        }
+
+        </style>
+  
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <asp:Panel ID="Panel1" runat="server" ForeColor="White" Height="233px" 
+            Width="1286px">
+            <asp:ImageButton ID="ImageButton1" runat="server" Height="231px" 
+            ImageUrl="~/Home Images/Patient tracker logo.png" Width="1282px" 
+                Enabled="False" CssClass="ButtonClass1" />
+            </asp:Panel>
+         </div>
+           <div>
+    <table class="style">              
+        <tr>
+            <td class="style2" width="100px">
+                <ul>
+<li><a class="first" href="ClerkRegistration.aspx">Register Clerk</a></li>
+<li><a href="DoctorRegistration.aspx">Register Doctor</a></li>
+<li><a href="PatientRegistration.aspx">Register Patient</a></li>
+<li><a href="BillGeneration.aspx">Generate Bill</a></li>
+<li><a href="Medicine Inventory.aspx">Medicine Inventory</a></li>
+<li><a href="Firstpage.aspx">Logout</a></li>
+</ul>
+
+                &nbsp;</td>
+        </tr>
+     
+    </table>
+
+    </div>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+          <div class="footer"> 
+    <center>Copyrights &#169; Reserved by Patient Tracker Team</center>
+</div>
+    </form>
+</body>
+</html>

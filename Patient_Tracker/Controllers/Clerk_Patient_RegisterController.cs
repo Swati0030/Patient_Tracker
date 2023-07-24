@@ -49,14 +49,14 @@ namespace Patient_Tracker.Controllers
                 patient_details result =  _serviceClerkPatientRegistration.AddPatient(obj);
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "An internal error occurred.");
+                return BadRequest(ex.Message);
             }
 
         }
 
-        [HttpPut("{Patient_No}")]
+        [HttpPut]
         [Authorize(Roles = "Clerk")]
         public IActionResult UpdatePatient(patient_details obj)
         {

@@ -74,15 +74,15 @@ namespace Patient_Tracker.Controllers
                 prescription_details result = _iservicedoctoraddprescription.SavePrescriptionDetails(obj);
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "An internal error occurred.");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
 
         }
 
 
-        [HttpPut("{patient_id}")]  //patient_id
+        [HttpPut]
         [Authorize(Roles = "Doctor")]
 
         public IActionResult UpdatePrescriptionDetails(prescription_details obj)

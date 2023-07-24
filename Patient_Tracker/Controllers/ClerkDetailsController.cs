@@ -32,10 +32,10 @@ namespace Patient_Tracker.Controllers
                 Clerk_details result = _iserviceclerkdetails.AddClerk(obj);
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception ex) 
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "An internal error occurred.");
-            }
+                return BadRequest(ex.Message); 
+             }
 
         }
 
